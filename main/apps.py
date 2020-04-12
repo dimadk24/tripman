@@ -6,5 +6,6 @@ class MainConfig(AppConfig):
     name = 'main'
     verbose_name = 'TripMan'
 
+
 class TripManAdminConfig(AdminConfig):
     default_site = 'main.admin.TripManAdminSite'

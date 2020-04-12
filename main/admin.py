@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import register, AdminSite
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
 from .models import Trip, TripDefinition, Client, Service
 
@@ -16,8 +17,7 @@ class TripManAdminSite(AdminSite):
 
 tripman_admin_site = TripManAdminSite()
 
-tripman_admin_site.register(User)
-tripman_admin_site.register(Group)
+tripman_admin_site.register(User, UserAdmin)
 
 
 @register(TripDefinition, site=tripman_admin_site)
