@@ -32,7 +32,19 @@ class ClientAdmin(admin.ModelAdmin):
 
 @register(Trip, site=tripman_admin_site)
 class TripAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('price',)
+    edit_fields = ('client', 'trip_definition', 'sell_date', 'price')
+    add_fields = ('client', 'trip_definition', 'sell_date')
+
+    def save_model(self, request, obj: Trip, form, change):
+        obj.price = obj.price or obj.trip_definition.price * (
+            100 - obj.client.discount) / 100
+        super().save_model(request, obj, form, change)
+
+    def get_fields(self, request, obj: Trip = None):
+        if obj:
+            return self.edit_fields
+        return self.add_fields
 
 
 @register(Service, site=tripman_admin_site)

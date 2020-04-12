@@ -6,35 +6,42 @@ from django.db import models
 
 class TripDefinition(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name='Имя')
-    price = models.DecimalField(max_digits=8, decimal_places=2,
-                                verbose_name='Цена')
+    price = models.IntegerField(verbose_name='Цена (руб)')
+    location = models.CharField(max_length=50, verbose_name='Населенный пункт')
     startDate = models.DateField(verbose_name='Дата старта')
     endDate = models.DateField(verbose_name='Дата конца')
     services = models.ManyToManyField('Service', verbose_name='Сервисы')
 
     class Meta:
-        verbose_name = 'Путевка'
-        verbose_name_plural = 'Путевки'
+        verbose_name = 'путевка'
+        verbose_name_plural = 'путевки'
+
+    def __str__(self):
+        return f'{self.name} ({self.price} руб)'
 
 
 class Service(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name='Имя')
-    price = models.DecimalField(max_digits=8, decimal_places=2,
-                                verbose_name='Цена')
+    price = models.IntegerField(verbose_name='Цена (руб)')
 
     class Meta:
-        verbose_name = 'Дополнительный сервис'
-        verbose_name_plural = 'Дополнительные сервисы'
+        verbose_name = 'дополнительный сервис'
+        verbose_name_plural = 'дополнительные сервисы'
+
+    def __str__(self):
+        return f'{self.name} ({self.price} руб)'
 
 
 class Client(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
-    discount = models.DecimalField(max_digits=5, decimal_places=2,
-                                   verbose_name='Скидка')
+    discount = models.IntegerField(default=0, verbose_name='Скидка (%)')
 
     class Meta:
-        verbose_name = 'Клиент'
-        verbose_name_plural = 'Клиенты'
+        verbose_name = 'клиент'
+        verbose_name_plural = 'клиенты'
+
+    def __str__(self):
+        return self.name
 
 
 class Trip(models.Model):
@@ -43,10 +50,13 @@ class Trip(models.Model):
     trip_definition = models.ForeignKey(TripDefinition,
                                         on_delete=models.CASCADE,
                                         verbose_name='Путевка')
-    price = models.DecimalField(max_digits=8, decimal_places=2,
-                                verbose_name='Цена')
+    price = models.IntegerField(verbose_name='Цена (руб)')
     sell_date = models.DateField(verbose_name='Дата продажи')
 
     class Meta:
-        verbose_name = 'Путешествие'
-        verbose_name_plural = 'Путешествия'
+        verbose_name = 'путешествие'
+        verbose_name_plural = 'путешествия'
+
+    def __str__(self):
+        return (f'Путешествие клиента "{self.client}" по путевке '
+                + f'"{self.trip_definition}"')
