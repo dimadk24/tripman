@@ -28,6 +28,7 @@ class TripDefinitionAdmin(admin.ModelAdmin):
                     'calculated_number_of_trips')
     list_filter = ('location', 'start_date', 'end_date',
                    HotTripDefinitionListFilter)
+    actions = None
 
     def calculated_number_of_trips(self, obj):
         return obj.number_of_trips
@@ -45,6 +46,7 @@ class TripDefinitionAdmin(admin.ModelAdmin):
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'discount')
     list_filter = ('discount', 'trip__trip_definition__location')
+    actions = None
 
 
 @register(Trip, site=tripman_admin_site)
@@ -54,6 +56,7 @@ class TripAdmin(admin.ModelAdmin):
     edit_fields = ('client', 'trip_definition', 'sell_date', 'price')
     add_fields = ('client', 'trip_definition', 'sell_date')
     list_filter = ('client', 'trip_definition', 'price', 'sell_date')
+    actions = None
 
     def save_model(self, request, obj: Trip, form, change):
         obj.price = obj.price or obj.trip_definition.price * (
@@ -70,3 +73,4 @@ class TripAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'price')
     list_filter = ('price',)
+    actions = None
