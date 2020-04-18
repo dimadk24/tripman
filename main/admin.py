@@ -14,6 +14,8 @@ class TripManAdminSite(AdminSite):
     # Text to put at the top of the admin index page.
     index_title = 'TripMan - сервис управления турагенством'
 
+    index_template = 'admin/tripman_index.html'
+
 
 tripman_admin_site = TripManAdminSite()
 tripman_admin_site.disable_action('delete_selected')
