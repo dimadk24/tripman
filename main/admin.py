@@ -1,7 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin import register, AdminSite
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
 from django.db.models import Count
 
 from .admin_filters import HotTripDefinitionListFilter
@@ -18,8 +16,6 @@ class TripManAdminSite(AdminSite):
 
 
 tripman_admin_site = TripManAdminSite()
-
-tripman_admin_site.register(User, UserAdmin)
 
 
 @register(TripDefinition, site=tripman_admin_site)
