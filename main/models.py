@@ -8,8 +8,8 @@ class TripDefinition(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name='Имя')
     price = models.IntegerField(verbose_name='Цена (руб)')
     location = models.CharField(max_length=50, verbose_name='Населенный пункт')
-    start_date = models.DateField(verbose_name='Дата старта')
-    end_date = models.DateField(verbose_name='Дата конца')
+    start_date = models.DateField(verbose_name='Дата отправления')
+    end_date = models.DateField(verbose_name='Дата возвращения')
     services = models.ManyToManyField('Service', verbose_name='Сервисы',
                                       blank=True)
 
