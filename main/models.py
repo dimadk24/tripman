@@ -10,7 +10,8 @@ class TripDefinition(models.Model):
     location = models.CharField(max_length=50, verbose_name='Населенный пункт')
     start_date = models.DateField(verbose_name='Дата старта')
     end_date = models.DateField(verbose_name='Дата конца')
-    services = models.ManyToManyField('Service', verbose_name='Сервисы')
+    services = models.ManyToManyField('Service', verbose_name='Сервисы',
+                                      blank=True)
 
     class Meta:
         verbose_name = 'путевка'
