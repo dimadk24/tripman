@@ -3,6 +3,7 @@ from django.contrib.admin import register, AdminSite
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
+from .admin_filters import HotTripDefinitionListFilter
 from .models import Trip, TripDefinition, Client, Service
 
 
@@ -23,7 +24,8 @@ tripman_admin_site.register(User, UserAdmin)
 @register(TripDefinition, site=tripman_admin_site)
 class TripDefinitionAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'location', 'start_date', 'end_date')
-    list_filter = ('price', 'location', 'start_date', 'end_date')
+    list_filter = ('location', 'start_date', 'end_date',
+                   HotTripDefinitionListFilter)
 
 
 @register(Client, site=tripman_admin_site)
