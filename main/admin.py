@@ -31,7 +31,7 @@ class TripDefinitionAdmin(admin.ModelAdmin):
 @register(Client, site=tripman_admin_site)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'discount')
-    list_filter = ('discount',)
+    list_filter = ('discount', 'trip__trip_definition__location')
 
 
 @register(Trip, site=tripman_admin_site)
