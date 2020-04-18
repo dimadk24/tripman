@@ -22,19 +22,23 @@ tripman_admin_site.register(User, UserAdmin)
 
 @register(TripDefinition, site=tripman_admin_site)
 class TripDefinitionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'price', 'location', 'start_date', 'end_date')
+    list_filter = ('price', 'location', 'start_date', 'end_date')
 
 
 @register(Client, site=tripman_admin_site)
 class ClientAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'discount')
+    list_filter = ('discount',)
 
 
 @register(Trip, site=tripman_admin_site)
 class TripAdmin(admin.ModelAdmin):
+    list_display = ('client', 'trip_definition', 'price', 'sell_date')
     readonly_fields = ('price',)
     edit_fields = ('client', 'trip_definition', 'sell_date', 'price')
     add_fields = ('client', 'trip_definition', 'sell_date')
+    list_filter = ('client', 'trip_definition', 'price', 'sell_date')
 
     def save_model(self, request, obj: Trip, form, change):
         obj.price = obj.price or obj.trip_definition.price * (
@@ -49,4 +53,5 @@ class TripAdmin(admin.ModelAdmin):
 
 @register(Service, site=tripman_admin_site)
 class ServiceAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'price')
+    list_filter = ('price',)
