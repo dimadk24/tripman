@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import register, AdminSite
 from django.db.models import Count
+from rangefilter.filter import DateRangeFilter
 
 from .admin_filters import HotTripDefinitionListFilter
 from .models import Trip, TripDefinition, Client, Service
@@ -25,7 +26,9 @@ tripman_admin_site.disable_action('delete_selected')
 class TripDefinitionAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'location', 'start_date', 'end_date',
                     'calculated_number_of_trips')
-    list_filter = ('location', 'start_date', 'end_date',
+    list_filter = ('location',
+                   ('start_date', DateRangeFilter),
+                   ('end_date', DateRangeFilter),
                    HotTripDefinitionListFilter)
 
     def calculated_number_of_trips(self, obj):
@@ -70,7 +73,8 @@ class TripAdmin(admin.ModelAdmin):
     readonly_fields = ('price',)
     edit_fields = ('client', 'trip_definition', 'sell_date', 'price')
     add_fields = ('client', 'trip_definition', 'sell_date')
-    list_filter = ('client', 'trip_definition', 'price', 'sell_date')
+    list_filter = ('client', 'trip_definition', 'price',
+                   ('sell_date', DateRangeFilter))
 
     def save_model(self, request, obj: Trip, form, change):
         obj.price = obj.price or obj.trip_definition.price * (

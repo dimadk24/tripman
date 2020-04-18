@@ -9,6 +9,7 @@ verify_ssl = true
 django = "*"
 python-dotenv = "*"
 dj-database-url = "*"
+django-admin-rangefilter = "*"
 
 [requires]
 python_version = "3.6"
