@@ -18,8 +18,6 @@ class HotTripDefinitionListFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         now = timezone.now()
         five_days_in_future = now + timedelta(5)
-        print(now)
-        print(five_days_in_future)
         if self.value() == 'hot':
             return queryset.filter(start_date__lte=five_days_in_future,
                                    start_date__gte=now)
