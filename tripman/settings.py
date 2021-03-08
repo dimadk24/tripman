@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "main.apps.MainConfig",
     "rangefilter",
+    "dbbackup",
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,8 @@ LOGIN_URL = "/admin/login"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+# Logging
+
 LOG_DIR = os.getenv("DJANGO_LOG_DIR", default=".")
 DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", default="INFO")
 LOGGING = {
@@ -155,3 +158,8 @@ LOGGING = {
         },
     },
 }
+
+# DB backup
+
+DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
+DBBACKUP_STORAGE_OPTIONS = {"location": os.getenv("DB_BACKUP_FOLDER")}
