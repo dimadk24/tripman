@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import register, AdminSite
+from django.contrib.auth.admin import UserAdmin, GroupAdmin
+from django.contrib.auth.models import User, Group
 from django.db.models import Count
 from rangefilter.filter import DateRangeFilter
 
@@ -20,6 +22,9 @@ class TripManAdminSite(AdminSite):
 
 tripman_admin_site = TripManAdminSite()
 tripman_admin_site.disable_action('delete_selected')
+
+tripman_admin_site.register(User, UserAdmin)
+tripman_admin_site.register(Group, GroupAdmin)
 
 
 @register(TripDefinition, site=tripman_admin_site)
