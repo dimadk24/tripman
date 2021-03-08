@@ -11,6 +11,7 @@ python-dotenv = "*"
 dj-database-url = "*"
 django-admin-rangefilter = "*"
 django-dbbackup = "*"
+django-sql-explorer = "*"
 
 [requires]
 python_version = "3.6"

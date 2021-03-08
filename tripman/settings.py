@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "main.apps.MainConfig",
     "rangefilter",
     "dbbackup",
+    "explorer",
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,8 @@ LOGGING = {
 
 DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
 DBBACKUP_STORAGE_OPTIONS = {"location": os.getenv("DB_BACKUP_FOLDER")}
+
+# DB explorer
+
+EXPLORER_CONNECTIONS = {"Default": "default"}
+EXPLORER_DEFAULT_CONNECTION = "default"
