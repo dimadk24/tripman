@@ -12,6 +12,7 @@ dj-database-url = "*"
 django-admin-rangefilter = "*"
 django-dbbackup = "*"
 django-sql-explorer = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.6"
