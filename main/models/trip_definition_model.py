@@ -9,6 +9,8 @@ class TripDefinition(models.Model):
     end_date = models.DateField(verbose_name="Дата возвращения")
     services = models.ManyToManyField("Service", verbose_name="Сервисы",
                                       blank=True)
+    excursions = models.ManyToManyField("Excursion", verbose_name="Экскурсии",
+                                        blank=True)
 
     class Meta:
         verbose_name = "путевка"
