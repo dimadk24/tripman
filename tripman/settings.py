@@ -84,6 +84,7 @@ WSGI_APPLICATION = "tripman.wsgi.application"
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
