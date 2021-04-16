@@ -35,6 +35,7 @@ class TripDefinitionAdmin(admin.ModelAdmin):
                    ('start_date', DateRangeFilter),
                    ('end_date', DateRangeFilter),
                    HotTripDefinitionListFilter)
+    readonly_fields = ('created_by',)
 
     def calculated_number_of_trips(self, obj):
         return obj.number_of_trips
@@ -46,6 +47,10 @@ class TripDefinitionAdmin(admin.ModelAdmin):
         queryset = super().get_queryset(request)
         queryset = queryset.annotate(number_of_trips=Count('trip'))
         return queryset
+
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 @register(Client, site=tripman_admin_site)

@@ -7,10 +7,22 @@ class TripDefinition(models.Model):
     location = models.CharField(max_length=50, verbose_name="Населенный пункт")
     start_date = models.DateField(verbose_name="Дата отправления")
     end_date = models.DateField(verbose_name="Дата возвращения")
-    services = models.ManyToManyField("Service", verbose_name="Сервисы",
-                                      blank=True)
-    excursions = models.ManyToManyField("Excursion", verbose_name="Экскурсии",
-                                        blank=True)
+    services = models.ManyToManyField(
+        "Service",
+        verbose_name="Сервисы",
+        blank=True,
+    )
+    excursions = models.ManyToManyField(
+        "Excursion",
+        verbose_name="Экскурсии",
+        blank=True,
+    )
+    created_by = models.ForeignKey(
+        "auth.User",
+        verbose_name="Создатель",
+        on_delete=models.CASCADE,
+        editable=False,
+    )
 
     class Meta:
         verbose_name = "путевка"
