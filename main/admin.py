@@ -6,7 +6,7 @@ from django.db.models import Count
 from rangefilter.filter import DateRangeFilter
 
 from .admin_filters import HotTripDefinitionListFilter
-from .models import Trip, TripDefinition, Client, Service, Excursion
+from .models import Trip, TripDefinition, Client, Service, Excursion, City
 
 
 class TripManAdminSite(AdminSite):
@@ -105,4 +105,9 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @register(Excursion, site=tripman_admin_site)
 class ExcursionAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@register(City, site=tripman_admin_site)
+class CityAdmin(admin.ModelAdmin):
     list_display = ('name',)

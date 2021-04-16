@@ -1,3 +1,4 @@
+from .city_model import City
 from .client_model import Client
 from .excursion_model import Excursion
 from .service_model import Service
