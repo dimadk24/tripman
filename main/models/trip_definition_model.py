@@ -4,7 +4,6 @@ from django.db import models
 class TripDefinition(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name="Имя")
     price = models.IntegerField(verbose_name="Цена (руб)")
-    location = models.CharField(max_length=50, verbose_name="Населенный пункт")
     hotel = models.ForeignKey("Hotel", verbose_name="Отель",
                               on_delete=models.CASCADE)
     start_date = models.DateField(verbose_name="Дата отправления")

@@ -30,10 +30,9 @@ tripman_admin_site.register(Group, GroupAdmin)
 
 @register(TripDefinition, site=tripman_admin_site)
 class TripDefinitionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'location', 'start_date', 'end_date',
+    list_display = ('name', 'price', 'start_date', 'end_date',
                     'calculated_number_of_trips')
-    list_filter = ('location',
-                   ('start_date', DateRangeFilter),
+    list_filter = (('start_date', DateRangeFilter),
                    ('end_date', DateRangeFilter),
                    HotTripDefinitionListFilter)
     readonly_fields = ('created_by',)
@@ -57,7 +56,7 @@ class TripDefinitionAdmin(admin.ModelAdmin):
 @register(Client, site=tripman_admin_site)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'discount', 'discount_in_money')
-    list_filter = ('discount', 'trip__trip_definition__location')
+    list_filter = ('discount',)
     actions = ('get_sum_discount',)
 
     def discount_in_money(self, obj):
