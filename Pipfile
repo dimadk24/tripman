@@ -13,6 +13,7 @@ django-admin-rangefilter = "*"
 django-dbbackup = "*"
 django-sql-explorer = "*"
 mysqlclient = "*"
+django-admin-actions = "*"
 
 [requires]
 python_version = "3.6"
