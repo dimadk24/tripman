@@ -18,6 +18,6 @@ from django.urls import path, include
 from main.admin import tripman_admin_site
 
 urlpatterns = [
-    path("", tripman_admin_site.urls),
     path("explorer/", include("explorer.urls")),
+    path("", tripman_admin_site.urls),
 ]
