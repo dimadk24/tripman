@@ -1,8 +1,11 @@
+from admin_actions.admin import ActionsModelAdmin
 from django.contrib import admin
 from django.contrib.admin import register, AdminSite
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import User, Group
 from django.db.models import Count
+from django.shortcuts import redirect
+from django.urls import reverse
 from rangefilter.filter import DateRangeFilter
 
 from .admin_filters import HotTripDefinitionListFilter
@@ -29,13 +32,22 @@ tripman_admin_site.register(Group, GroupAdmin)
 
 
 @register(TripDefinition, site=tripman_admin_site)
-class TripDefinitionAdmin(admin.ModelAdmin):
+class TripDefinitionAdmin(ActionsModelAdmin):
     list_display = ('name', 'price', 'start_date', 'end_date',
                     'calculated_number_of_trips')
     list_filter = (('start_date', DateRangeFilter),
                    ('end_date', DateRangeFilter),
                    HotTripDefinitionListFilter)
     readonly_fields = ('created_by',)
+    actions_list = ('open_random_trip_definition',)
+
+    def open_random_trip_definition(self, request):
+        trip_def = TripDefinition.objects.raw('CALL RandomTripDefinition();')[0]
+        return redirect(reverse('admin:main_tripdefinition_change',
+                                args=[trip_def.pk]))
+
+    open_random_trip_definition.short_description = 'Случайная путевка'
+    open_random_trip_definition.url_path = 'random'
 
     def calculated_number_of_trips(self, obj):
         return obj.number_of_trips
