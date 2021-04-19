@@ -98,11 +98,6 @@ class TripAdmin(admin.ModelAdmin):
     list_filter = ('client', 'trip_definition', 'price',
                    ('sell_date', DateRangeFilter))
 
-    def save_model(self, request, obj: Trip, form, change):
-        obj.price = obj.price or obj.trip_definition.price * (
-            100 - obj.client.discount) / 100
-        super().save_model(request, obj, form, change)
-
     def get_fields(self, request, obj: Trip = None):
         if obj:
             return self.edit_fields
