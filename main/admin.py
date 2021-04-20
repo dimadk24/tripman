@@ -67,18 +67,9 @@ class TripDefinitionAdmin(ActionsModelAdmin):
 
 @register(Client, site=tripman_admin_site)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'discount', 'discount_in_money')
+    list_display = ('name', 'discount', 'total_saved')
     list_filter = ('discount',)
     actions = ('get_sum_discount',)
-
-    def discount_in_money(self, obj):
-        discount = 0
-        trips = obj.trip_set.all()
-        for trip in trips:
-            discount += trip.trip_definition.price - trip.price
-        return discount
-
-    discount_in_money.short_description = 'Суммарная скидка (руб)'
 
     def get_sum_discount(self, request, queryset):
         sum_discount = 0
