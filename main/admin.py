@@ -103,8 +103,8 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @register(Excursion, site=tripman_admin_site)
 class ExcursionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'times_included',)
-    readonly_fields = ('times_included',)
+    list_display = ('name', 'times_included', 'times_visited',)
+    readonly_fields = ('times_included', 'times_visited',)
 
 
 @register(City, site=tripman_admin_site)
