@@ -8,7 +8,7 @@ class Trip(models.Model):
         'TripDefinition', on_delete=models.CASCADE, verbose_name="Путевка"
     )
     price = models.IntegerField(verbose_name="Цена (руб)")
-    sell_date = models.DateField(verbose_name="Дата продажи")
+    sell_date = models.DateField(verbose_name="Дата продажи", blank=True)
 
     class Meta:
         verbose_name = "путешествие"
