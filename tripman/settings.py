@@ -9,16 +9,33 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import io
 import os
+from io import StringIO
 
 import dj_database_url
-from dotenv import load_dotenv
+import environ
+from google.cloud import secretmanager
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
+env = environ.Env()
+env_file = os.path.join(BASE_DIR, ".env")
+
+if os.path.isfile(env_file):
+    # Use a local secret file, if provided
+    env.read_env(env_file)
+else:
+    # Pull secrets from Secret Manager
+    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
+    client = secretmanager.SecretManagerServiceClient()
+    settings_name = os.environ.get("SETTINGS_NAME", "django_settings")
+    name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
+    payload = client.access_secret_version(name=name).payload.data.decode(
+        "UTF-8")
+
+    env.read_env(StringIO(payload))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -83,8 +100,7 @@ WSGI_APPLICATION = "tripman.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
+DATABASES = {"default": env.db()}
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
