@@ -49,6 +49,7 @@ DEBUG = bool(int(os.getenv("DEBUG", "0")))
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "192.168.0.2",
+    "tripman.uc.r.appspot.com",
 ]
 
 # Application definition
@@ -147,36 +148,37 @@ LOGOUT_REDIRECT_URL = "/"
 
 # Logging
 
-LOG_DIR = os.getenv("DJANGO_LOG_DIR", default=".")
-DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", default="INFO")
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.FileHandler",
-            "filename": os.path.join(LOG_DIR, "logging.log"),
-            "formatter": "verbose",
+LOG_DIR = os.getenv("DJANGO_LOG_DIR", default=None)
+if LOG_DIR:
+    DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", default="INFO")
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {
+            "file": {
+                "level": "DEBUG",
+                "class": "logging.FileHandler",
+                "filename": os.path.join(LOG_DIR, "logging.log"),
+                "formatter": "verbose",
+            },
         },
-    },
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {module} {message}",
-            "style": "{",
+        "formatters": {
+            "verbose": {
+                "format": "{levelname} {asctime} {module} {message}",
+                "style": "{",
+            },
         },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["file"],
-            "level": DJANGO_LOG_LEVEL,
-            "propagate": True,
+        "loggers": {
+            "django": {
+                "handlers": ["file"],
+                "level": DJANGO_LOG_LEVEL,
+                "propagate": True,
+            },
+            "django.db.backends": {
+                "level": "DEBUG",
+            },
         },
-        "django.db.backends": {
-            "level": "DEBUG",
-        },
-    },
-}
+    }
 
 # DB backup
 
