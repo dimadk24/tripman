@@ -57,7 +57,7 @@ python-versions = "*"
 
 [[package]]
 name = "django"
-version = "3.2"
+version = "3.2.4"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
@@ -425,7 +425,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">3.6"
-content-hash = "afa2d1926a0db9158441d2f066c5b30f768e79f677cf0e2295416ab96faa3b7d"
+content-hash = "81903ec3e1d230c29b6fb410cb684a692c89fcf53d0a4ef7a7d939e5415f064f"
 
 [metadata.files]
 asgiref = [
@@ -453,8 +453,8 @@ dj-database-url = [
     {file = "dj_database_url-0.5.0-py2.py3-none-any.whl", hash = "sha256:851785365761ebe4994a921b433062309eb882fedd318e1b0fcecc607ed02da9"},
 ]
 django = [
-    {file = "Django-3.2-py3-none-any.whl", hash = "sha256:0604e84c4fb698a5e53e5857b5aea945b2f19a18f25f10b8748dbdf935788927"},
-    {file = "Django-3.2.tar.gz", hash = "sha256:21f0f9643722675976004eb683c55d33c05486f94506672df3d6a141546f389d"},
+    {file = "Django-3.2.4-py3-none-any.whl", hash = "sha256:ea735cbbbb3b2fba6d4da4784a0043d84c67c92f1fdf15ad6db69900e792c10f"},
+    {file = "Django-3.2.4.tar.gz", hash = "sha256:66c9d8db8cc6fe938a28b7887c1596e42d522e27618562517cc8929eb7e7f296"},
 ]
 django-admin-actions = [
     {file = "django-admin-actions-0.1.1.tar.gz", hash = "sha256:4a10875f31b24093a1067c49e880b74da2f4fcc39f8824db0690579b9df0904f"},
