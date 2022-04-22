@@ -57,7 +57,7 @@ python-versions = "*"
 
 [[package]]
 name = "django"
-version = "3.2"
+version = "3.2.13"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
@@ -129,24 +129,22 @@ xls = ["xlsxwriter (>=1.2.1)"]
 
 [[package]]
 name = "google-api-core"
-version = "1.31.1"
+version = "2.7.2"
 description = "Google API client core library"
 category = "main"
 optional = false
-python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*"
+python-versions = ">=3.6"
 
 [package.dependencies]
-google-auth = ">=1.25.0,<2.0dev"
-googleapis-common-protos = ">=1.6.0,<2.0dev"
-grpcio = {version = ">=1.29.0,<2.0dev", optional = true, markers = "extra == \"grpc\""}
-packaging = ">=14.3"
+google-auth = ">=1.25.0,<3.0dev"
+googleapis-common-protos = ">=1.52.0,<2.0dev"
+grpcio = {version = ">=1.33.2,<2.0dev", optional = true, markers = "extra == \"grpc\""}
+grpcio-status = {version = ">=1.33.2,<2.0dev", optional = true, markers = "extra == \"grpc\""}
 protobuf = ">=3.12.0"
-pytz = "*"
 requests = ">=2.18.0,<3.0.0dev"
-six = ">=1.13.0"
 
 [package.extras]
-grpc = ["grpcio (>=1.29.0,<2.0dev)"]
+grpc = ["grpcio (>=1.33.2,<2.0dev)", "grpcio-status (>=1.33.2,<2.0dev)"]
 grpcgcp = ["grpcio-gcp (>=0.2.2)"]
 grpcio-gcp = ["grpcio-gcp (>=0.2.2)"]
 
@@ -186,7 +184,7 @@ proto-plus = ">=1.4.0"
 
 [[package]]
 name = "googleapis-common-protos"
-version = "1.53.0"
+version = "1.56.0"
 description = "Common protobufs used in Google APIs"
 category = "main"
 optional = false
@@ -224,6 +222,19 @@ six = ">=1.5.2"
 
 [package.extras]
 protobuf = ["grpcio-tools (>=1.39.0)"]
+
+[[package]]
+name = "grpcio-status"
+version = "1.39.0"
+description = "Status proto mapping for gRPC"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+googleapis-common-protos = ">=1.5.5"
+grpcio = ">=1.39.0"
+protobuf = ">=3.6.0"
 
 [[package]]
 name = "idna"
@@ -425,7 +436,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">3.6"
-content-hash = "afa2d1926a0db9158441d2f066c5b30f768e79f677cf0e2295416ab96faa3b7d"
+content-hash = "21dd2e2fc08ddc7f8428782a0844ac4531c485942d4882cfceb6e8d121c9cab7"
 
 [metadata.files]
 asgiref = [
@@ -453,8 +464,8 @@ dj-database-url = [
     {file = "dj_database_url-0.5.0-py2.py3-none-any.whl", hash = "sha256:851785365761ebe4994a921b433062309eb882fedd318e1b0fcecc607ed02da9"},
 ]
 django = [
-    {file = "Django-3.2-py3-none-any.whl", hash = "sha256:0604e84c4fb698a5e53e5857b5aea945b2f19a18f25f10b8748dbdf935788927"},
-    {file = "Django-3.2.tar.gz", hash = "sha256:21f0f9643722675976004eb683c55d33c05486f94506672df3d6a141546f389d"},
+    {file = "Django-3.2.13-py3-none-any.whl", hash = "sha256:b896ca61edc079eb6bbaa15cf6071eb69d6aac08cce5211583cfb41515644fdf"},
+    {file = "Django-3.2.13.tar.gz", hash = "sha256:6d93497a0a9bf6ba0e0b1a29cccdc40efbfc76297255b1309b3a884a688ec4b6"},
 ]
 django-admin-actions = [
     {file = "django-admin-actions-0.1.1.tar.gz", hash = "sha256:4a10875f31b24093a1067c49e880b74da2f4fcc39f8824db0690579b9df0904f"},
@@ -475,8 +486,8 @@ django-sql-explorer = [
     {file = "django_sql_explorer-2.1.2-py3-none-any.whl", hash = "sha256:3f6dc17bb5eebe1d0bd9c92fe5c3489fe2fc96cfb1a22cf546b722f06be9dbd4"},
 ]
 google-api-core = [
-    {file = "google-api-core-1.31.1.tar.gz", hash = "sha256:108cf94336aed7e614eafc53933ef02adf63b9f0fd87e8f8212acaa09eaca456"},
-    {file = "google_api_core-1.31.1-py2.py3-none-any.whl", hash = "sha256:1d63e2b28057d79d64795c9a70abcecb5b7e96da732d011abf09606a39b48701"},
+    {file = "google-api-core-2.7.2.tar.gz", hash = "sha256:65480309a7437f739e4476da037af02a3ec8263f1d1f89f72bbdc8f54fe402d2"},
+    {file = "google_api_core-2.7.2-py3-none-any.whl", hash = "sha256:8fcbe52dc129fd83dca4e638a76f22b3a11579c493e643134e50e9870b233302"},
 ]
 google-auth = [
     {file = "google-auth-1.34.0.tar.gz", hash = "sha256:f1094088bae046fb06f3d1a3d7df14717e8d959e9105b79c57725bd4e17597a2"},
@@ -487,8 +498,8 @@ google-cloud-secret-manager = [
     {file = "google_cloud_secret_manager-2.7.0-py2.py3-none-any.whl", hash = "sha256:07bda1cd96110c7f1a553f08086debbbd9b38259c63b1f407e5d1715718f1ff6"},
 ]
 googleapis-common-protos = [
-    {file = "googleapis-common-protos-1.53.0.tar.gz", hash = "sha256:a88ee8903aa0a81f6c3cec2d5cf62d3c8aa67c06439b0496b49048fb1854ebf4"},
-    {file = "googleapis_common_protos-1.53.0-py2.py3-none-any.whl", hash = "sha256:f6d561ab8fb16b30020b940e2dd01cd80082f4762fa9f3ee670f4419b4b8dbd0"},
+    {file = "googleapis-common-protos-1.56.0.tar.gz", hash = "sha256:4007500795bcfc269d279f0f7d253ae18d6dc1ff5d5a73613ffe452038b1ec5f"},
+    {file = "googleapis_common_protos-1.56.0-py2.py3-none-any.whl", hash = "sha256:60220c89b8bd5272159bed4929ecdc1243ae1f73437883a499a44a1cbc084086"},
 ]
 grpc-google-iam-v1 = [
     {file = "grpc-google-iam-v1-0.12.3.tar.gz", hash = "sha256:0bfb5b56f648f457021a91c0df0db4934b6e0c300bd0f2de2333383fe958aa72"},
@@ -545,6 +556,11 @@ grpcio = [
     {file = "grpcio-1.39.0-cp39-cp39-win32.whl", hash = "sha256:c44958a24559f875d902d5c1acb0ae43faa5a84f6120d1d0d800acb52f96516e"},
     {file = "grpcio-1.39.0-cp39-cp39-win_amd64.whl", hash = "sha256:2068a2b896ac67103c4a5453d5435fafcbb1a2f41eaf25148d08780096935cee"},
     {file = "grpcio-1.39.0.tar.gz", hash = "sha256:57974361a459d6fe04c9ae0af1845974606612249f467bbd2062d963cb90f407"},
+]
+grpcio-status = [
+    {file = "grpcio-status-1.39.0.tar.gz", hash = "sha256:def8e442e66926f14b8e9e63417d9b99bbf4a64ee82e8c056d2fc6fa15f93221"},
+    {file = "grpcio_status-1.39.0-py2-none-any.whl", hash = "sha256:35538f8fccb2254f87ab0a48b90f6c8db8b8addae907055e3cf5ba1cc3eee4bc"},
+    {file = "grpcio_status-1.39.0-py3-none-any.whl", hash = "sha256:d556eb75dc8ff5d08a7b6bfe68e66888a868c9a00eaeb7c53cfdf52304751cea"},
 ]
 idna = [
     {file = "idna-3.2-py3-none-any.whl", hash = "sha256:14475042e284991034cb48e06f6851428fb14c4dc953acd9be9a5e95c7b6dd7a"},
