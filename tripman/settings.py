@@ -16,26 +16,22 @@ from io import StringIO
 import dj_database_url
 import environ
 from google.cloud import secretmanager
+from tripman.gcloud_secrets import get_gcloud_secret
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 env = environ.Env()
 env_file = os.path.join(BASE_DIR, ".env")
-
-if os.path.isfile(env_file):
-    # Use a local secret file, if provided
+if os.path.exists(env_file):
     env.read_env(env_file)
-else:
-    # Pull secrets from Secret Manager
-    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
-    client = secretmanager.SecretManagerServiceClient()
-    settings_name = os.environ.get("SETTINGS_NAME", "django_settings")
-    name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
-    payload = client.access_secret_version(name=name).payload.data.decode(
-        "UTF-8")
 
-    env.read_env(StringIO(payload))
+project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
+is_deployed_version = bool(project_id)
+
+if is_deployed_version:
+    settings_name = os.environ.get("SETTINGS_NAME", "django_settings")
+    env.read_env(get_gcloud_secret(settings_name))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -117,10 +113,12 @@ AUTH_PASSWORD_VALIDATORS = [
                 ".MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation"
+                ".CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation"
+                ".NumericPasswordValidator",
     },
 ]
 

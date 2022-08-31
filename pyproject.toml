@@ -6,7 +6,7 @@ authors = ["Dima Krutolianov <DimaKrutDK@ya.ru>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">3.6"
+python = "3.8.10"
 django = "3.2"
 dj-database-url = "0.5.0"
 django-admin-rangefilter = "0.8.1"
@@ -16,6 +16,8 @@ mysqlclient = "2.0.3"
 django-admin-actions = "0.1.1"
 django-environ = "0.4.5"
 google-cloud-secret-manager = "2.7.0"
+psycopg2 = "^2.9.3"
+gunicorn = "^20.1.0"
 
 [tool.poetry.dev-dependencies]
 
