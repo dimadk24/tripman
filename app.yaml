@@ -1,4 +1,5 @@
 runtime: python38
+instance_class: F1
 
 handlers:
 # This configures Google App Engine to serve the files in the app's static
@@ -15,5 +16,8 @@ handlers:
 env_variables:
   STATIC_ROOT: "static"
   DEBUG: "0"
+
+inbound_services:
+  - warmup
 
 entrypoint: gunicorn -b :$PORT tripman.wsgi
