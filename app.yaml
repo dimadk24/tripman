@@ -1,5 +1,7 @@
-runtime: python38
+runtime: python39
 instance_class: F1
+automatic_scaling:
+    min_instances: 1
 
 handlers:
 # This configures Google App Engine to serve the files in the app's static
@@ -20,4 +22,7 @@ env_variables:
 inbound_services:
   - warmup
 
-entrypoint: gunicorn -b :$PORT tripman.wsgi
+readiness_check:
+  path: "/healthcheck"
+
+entrypoint: python manage.py migrate && gunicorn -b :$PORT tripman.wsgi
