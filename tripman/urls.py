@@ -21,5 +21,6 @@ from tripman.warmup import warmup
 urlpatterns = [
     path("explorer/", include("explorer.urls")),
     path("_ah/warmup", warmup),
+    path("health", warmup),
     path("", tripman_admin_site.urls),
 ]
