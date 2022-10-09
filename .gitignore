@@ -5,3 +5,6 @@ __pycache__
 *.log
 db_backup/*
 static/*
+
+# Ignore generated credentials from google-github-actions/auth
+gha-creds-*.json
