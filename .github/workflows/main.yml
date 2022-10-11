@@ -1,14 +1,15 @@
 name: Main workflow
 on: push
 env:
-#  Of course these env variables are used only on GitHub Actions
-#  prod env variables are stored in another place
+  #  Of course these env variables are used only on GitHub Actions
+  #  prod env variables are stored in another place
   SECRET_KEY: "398jy60_15v)f-b=rdg@hryajjfxo6hl*c0ll1+bg7ay-gjr)l"
   DATABASE_URL: "mysql://root:root@127.0.0.1:8888/enfight?charset=utf8mb4"
   DEBUG: "1"
   DJANGO_ADMIN_NAME: "user"
   DJANGO_ADMIN_EMAIL: "user@example.com"
   DJANGO_ADMIN_PASSWORD: "root"
+  STATIC_ROOT: "static"
 jobs:
   deploy:
     name: 'Deploy'
@@ -17,14 +18,30 @@ jobs:
       contents: 'read'
       id-token: 'write'
     steps:
-      - name: 'Checkout'
-        uses: 'actions/checkout@v3'
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@dac4e13deb3640f22e3ffe758fd3f95e6e89f712'
+      - name: Setup python
+        uses: actions/setup-python@v4
         with:
-          credentials_json: '${{ secrets.GCLOUD_CREDENTIALS }}'
+          python-version: '3.9'
 
-      - name: 'Deploy prod'
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.2.1
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Collect static files
+        run: poetry run python manage.py collectstatic --no-input
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@dac4e13deb3640f22e3ffe758fd3f95e6e89f712
+        with:
+          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }}
+
+      - name: Deploy prod
         if: github.ref == 'refs/heads/master'
-        uses: 'google-github-actions/deploy-appengine@55a9b593d37bcbef95946c0f96cb28a0d361281a'
+        uses: google-github-actions/deploy-appengine@55a9b593d37bcbef95946c0f96cb28a0d361281a
