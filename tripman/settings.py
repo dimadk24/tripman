@@ -9,14 +9,11 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import io
 import os
-from io import StringIO
 
-import dj_database_url
 import environ
-from google.cloud import secretmanager
-from tripman.gcloud_secrets import get_gcloud_secret
+
+from tripman.gcloud_secrets import read_secrets_to_env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,12 +23,7 @@ env_file = os.path.join(BASE_DIR, ".env")
 if os.path.exists(env_file):
     env.read_env(env_file)
 
-project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
-is_deployed_version = bool(project_id)
-
-if is_deployed_version:
-    settings_name = os.environ.get("SETTINGS_NAME", "django_settings")
-    env.read_env(get_gcloud_secret(settings_name))
+read_secrets_to_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
