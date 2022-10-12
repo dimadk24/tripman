@@ -43,14 +43,10 @@ jobs:
       - name: Collect static files
         run: poetry run python manage.py collectstatic --no-input
 
-      - name: Get short commit hash
-        id: short-sha
-        uses: benjlevesque/short-sha@344959a3df3bee46c997a6fff995e90edd76d96a
-
       - name: Substitute env variables in app.yaml
         uses: Slidem/inplace-envsubst-action@6059d38fb66a0fd1db59f6eca9631ac1e52e50a7
         with:
-          fail-on-missing-variables: true
+          fail_on_missing_variables: 'true'
           whitelist: '["BRANCH_NAME"]'
           search_input: |
             {
@@ -67,6 +63,4 @@ jobs:
       - name: Deploy prod
         if: env.BRANCH_NAME == 'master'
         uses: google-github-actions/deploy-appengine@55a9b593d37bcbef95946c0f96cb28a0d361281a
-        with:
-          version: $BRANCH_NAME-${{ steps.short-sha.outputs.sha }}
 
