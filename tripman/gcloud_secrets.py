@@ -10,6 +10,7 @@ env = Env()
 DEFAULT_MAIN_BRANCH = 'master'
 
 project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
+is_deployed = env.bool("DEPLOYED", '')
 branch_name = os.getenv('BRANCH_NAME', '').replace('-', '_')
 base_settings_name = 'django_settings'
 branch_settings_name = f'{base_settings_name}_{branch_name}'
@@ -25,9 +26,7 @@ def get_gcloud_secret(name):
 
 
 def read_secrets_to_env():
-    is_deployed_version = bool(project_id)
-
-    if is_deployed_version:
+    if is_deployed:
         try:
             branch_settings = get_gcloud_secret(branch_settings_name)
             env.read_env(branch_settings)

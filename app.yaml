@@ -20,6 +20,7 @@ env_variables:
   DEBUG: "0"
   # substituted during build in GitHub actions
   BRANCH_NAME: ${BRANCH_NAME}
+  DEPLOYED: "1"
 
 inbound_services:
   - warmup
