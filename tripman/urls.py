@@ -16,11 +16,10 @@ Including another URLconf
 from django.urls import path, include
 
 from main.admin import tripman_admin_site
-from tripman.warmup import warmup
+from tripman.health import healthcheck
 
 urlpatterns = [
     path("explorer/", include("explorer.urls")),
-    path("_ah/warmup", warmup),
-    path("health", warmup),
+    path("health", healthcheck),
     path("", tripman_admin_site.urls),
 ]
