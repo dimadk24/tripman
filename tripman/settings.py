@@ -13,8 +13,6 @@ import os
 
 import environ
 
-from tripman.gcloud_secrets import read_secrets_to_env
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,8 +20,6 @@ env = environ.Env()
 env_file = os.path.join(BASE_DIR, ".env")
 if os.path.exists(env_file):
     env.read_env(env_file)
-
-read_secrets_to_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -37,7 +33,7 @@ DEBUG = bool(int(os.getenv("DEBUG", "0")))
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "192.168.0.2",
-    ".uc.r.appspot.com"
+    ".oceanprod.com"
 ]
 
 # Application definition

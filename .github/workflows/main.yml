@@ -13,8 +13,6 @@ env:
   DJANGO_ADMIN_EMAIL: "user@example.com"
   DJANGO_ADMIN_PASSWORD: "root"
   STATIC_ROOT: "static"
-  BRANCH_NAME: ${{ github.ref_name }}
-  GOOGLE_CLOUD_PROJECT: 'tripman'
 jobs:
   deploy:
     name: 'Deploy'
@@ -42,31 +40,4 @@ jobs:
 
       - name: Collect static files
         run: poetry run python manage.py collectstatic --no-input
-
-      - name: Substitute env variables in app.yaml
-        uses: Slidem/inplace-envsubst-action@6059d38fb66a0fd1db59f6eca9631ac1e52e50a7
-        env:
-          SECRET_KEY: ${{secrets.SECRET_KEY}}
-          DATABASE_URL: "mysql://${{secrets.DB_USER}}:${{secrets.DB_PASSWORD}}@${{secrets.DB_HOST}}:${{secrets.DB_PORT}}/tripman_${{env.BRANCH_NAME}}"
-          DJANGO_ADMIN_NAME: ${{secrets.DJANGO_ADMIN_NAME}}
-          DJANGO_ADMIN_EMAIL: ${{secrets.DJANGO_ADMIN_EMAIL}}
-          DJANGO_ADMIN_PASSWORD: ${{secrets.DJANGO_ADMIN_PASSWORD}}
-        with:
-          fail_on_missing_variables: 'true'
-          whitelist: '["BRANCH_NAME", "SECRET_KEY", "DATABASE_URL"]'
-          search_input: |
-            {
-              "patterns": [],
-              "files": ["app.yaml"],
-              "depth": 2
-            }
-
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@dac4e13deb3640f22e3ffe758fd3f95e6e89f712
-        with:
-          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }}
-
-      - name: Deploy prod
-        if: env.BRANCH_NAME == 'master'
-        uses: google-github-actions/deploy-appengine@55a9b593d37bcbef95946c0f96cb28a0d361281a
 
