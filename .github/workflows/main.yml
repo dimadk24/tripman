@@ -45,9 +45,15 @@ jobs:
 
       - name: Substitute env variables in app.yaml
         uses: Slidem/inplace-envsubst-action@6059d38fb66a0fd1db59f6eca9631ac1e52e50a7
+        env:
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
+          DATABASE_URL: "mysql://${{secrets.DB_USER}}:${{secrets.DB_PASSWORD}}@${{secrets.DB_HOST}}:${{secrets.DB_PORT}}/tripman_${{env.BRANCH_NAME}}"
+          DJANGO_ADMIN_NAME: ${{secrets.DJANGO_ADMIN_NAME}}
+          DJANGO_ADMIN_EMAIL: ${{secrets.DJANGO_ADMIN_EMAIL}}
+          DJANGO_ADMIN_PASSWORD: ${{secrets.DJANGO_ADMIN_PASSWORD}}
         with:
           fail_on_missing_variables: 'true'
-          whitelist: '["BRANCH_NAME"]'
+          whitelist: '["BRANCH_NAME", "SECRET_KEY", "DATABASE_URL"]'
           search_input: |
             {
               "patterns": [],

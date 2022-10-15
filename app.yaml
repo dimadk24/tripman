@@ -18,9 +18,12 @@ handlers:
 env_variables:
   STATIC_ROOT: "static"
   DEBUG: "0"
+  DEPLOYED: "1"
   # substituted during build in GitHub actions
   BRANCH_NAME: ${BRANCH_NAME}
-  DEPLOYED: "1"
+  DJANGO_ADMIN_NAME: ${DJANGO_ADMIN_NAME}
+  DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL}
+  DJANGO_ADMIN_PASSWORD: ${DJANGO_ADMIN_PASSWORD}
 
 inbound_services:
   - warmup
