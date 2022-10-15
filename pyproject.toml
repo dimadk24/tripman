@@ -16,6 +16,7 @@ mysqlclient = "2.0.3"
 django-admin-actions = "0.1.1"
 django-environ = "0.4.5"
 gunicorn = "20.1.0"
+whitenoise = "6.2.0"
 
 [tool.poetry.dev-dependencies]
 
