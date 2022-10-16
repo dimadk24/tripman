@@ -4,8 +4,8 @@
 # https://github.com/dokku/ci-docker-image/blob/a68a9220582cfe7686c7f868bed1441179ecc607/bin/dokku-deploy#L86
 
 MAIN_APP_NAME="tripman"
-MAIN_MYSQL_APP_NAME="$MAIN_APP_NAME-mysql"
-MYSQL_APP_NAME="$APP_NAME-mysql"
+MAIN_MYSQL_APP_NAME="$MAIN_APP_NAME-sql"
+MYSQL_APP_NAME="$APP_NAME-sql"
 
 if [ "$IS_REVIEW_APP" = "true" ]; then
     echo "Checking if mysql preview instance exists..."
