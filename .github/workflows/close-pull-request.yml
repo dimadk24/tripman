@@ -9,7 +9,7 @@ jobs:
     name: 'Destroy preview app'
     runs-on: ubuntu-22.04
     steps:
-      - name: Destroy the preview app
+      - name: Destroy preview app
         uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
         with:
           command: review-apps:destroy
