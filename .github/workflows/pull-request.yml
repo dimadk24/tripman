@@ -6,27 +6,29 @@ concurrency:
 jobs:
   create-review-app:
     runs-on: ubuntu-22.04
-    if: github.event.action == 'opened'
+    if: github.event.action == 'opened' || github.event.action == 'synchronize'
     steps:
       - name: Cloning repo
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Deploy review app
+      - name: Deploy preview app
         uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
         with:
           command: review-apps:create
           git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
           ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
+          review_app_name: tripman-pr-${{ github.event.pull_request.number }}
 
   destroy-review-app:
     runs-on: ubuntu-22.04
     if: github.event.action == 'closed'
     steps:
-      - name: Destroy the review app
+      - name: Destroy the preview app
         uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
         with:
           command: review-apps:destroy
           git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
           ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
+          review_app_name: tripman-pr-${{ github.event.pull_request.number }}
