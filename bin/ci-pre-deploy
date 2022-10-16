@@ -13,7 +13,7 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
     fi
     if ! ssh "$SSH_REMOTE" -- mysql:linked "$APP_NAME-mysql" "$APP_NAME"; then
         echo "Linking $APP_NAME-mysql instance to the $APP_NAME..."
-        ssh "$SSH_REMOTE" -- mysql:link "$APP_NAME-mysql" "$APP_NAME"
+        ssh "$SSH_REMOTE" -- mysql:link "$APP_NAME-mysql" "$APP_NAME" DOKKU_SKIP_DEPLOY="true"
         echo "Linked $APP_NAME-mysql to the $APP_NAME"
     else
         echo "$APP_NAME-mysql already linked to the $APP_NAME"
