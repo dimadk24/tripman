@@ -2,7 +2,6 @@ name: Main workflow
 on: push
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 env:
   #  Of course these env variables are used only on GitHub Actions
   #  prod env variables are stored in another place
@@ -18,8 +17,6 @@ jobs:
     name: 'Deploy prod'
     runs-on: ubuntu-22.04
     if: github.ref_name == 'master'
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-deploy
     steps:
       - name: Checkout
         uses: actions/checkout@v3
