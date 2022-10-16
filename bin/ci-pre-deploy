@@ -23,7 +23,7 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
     echo "Checking if main mysql linked to the preview app..."
     if ssh "$SSH_REMOTE" -- mysql:linked "$MAIN_MYSQL_APP_NAME" "$APP_NAME"; then
         echo "Unlinking $MAIN_MYSQL_APP_NAME instance from the $APP_NAME (main)..."
-        ssh "$SSH_REMOTE" -- mysql:unlink "$MYSQL_APP_NAME" "$MAIN_APP_NAME" DOKKU_SKIP_DEPLOY="true"
+        ssh "$SSH_REMOTE" -- mysql:unlink "$MYSQL_APP_NAME" "$MAIN_APP_NAME"
         echo "Unlinked $MAIN_MYSQL_APP_NAME from the $APP_NAME (main)"
     else
         echo "$MYSQL_APP_NAME not linked to the $MAIN_APP_NAME (main)"
@@ -32,7 +32,7 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
     echo "Checking if preview mysql linked to the preview app..."
     if ! ssh "$SSH_REMOTE" -- mysql:linked "$MYSQL_APP_NAME" "$APP_NAME"; then
         echo "Linking $MYSQL_APP_NAME instance to the $APP_NAME..."
-        ssh "$SSH_REMOTE" -- mysql:link "$MYSQL_APP_NAME" "$APP_NAME" DOKKU_SKIP_DEPLOY="true"
+        ssh "$SSH_REMOTE" -- mysql:link "$MYSQL_APP_NAME" "$APP_NAME"
         echo "Linked $MYSQL_APP_NAME to the $APP_NAME"
     else
         echo "$MYSQL_APP_NAME already linked to the $APP_NAME"
