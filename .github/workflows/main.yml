@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Deploy
+      - name: Deploy prod
         uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
         with:
           git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
