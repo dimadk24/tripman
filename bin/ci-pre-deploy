@@ -23,7 +23,7 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
         ssh "$SSH_REMOTE" -- mysql:unlink "$MAIN_MYSQL_APP_NAME" "$APP_NAME"
         echo "Unlinked $MAIN_MYSQL_APP_NAME from the $APP_NAME (main)"
     else
-        echo "$MYSQL_APP_NAME not linked to the $MAIN_APP_NAME (main)"
+        echo "$MAIN_MYSQL_APP_NAME not linked to the $APP_NAME (main)"
     fi
 
     echo "Checking if preview mysql linked to the preview app..."
