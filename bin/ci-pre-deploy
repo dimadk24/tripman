@@ -18,7 +18,7 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
     fi
 
     echo "Setting DOKKU_SKIP_DEPLOY=true to don't redeploy during unlinking and linking..."
-    ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="true" --no-restart # during linking/unlinking dokku redeploys
+    ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="true" --no-restart
 
     echo "Checking if main mysql linked to the preview app..."
     if ssh "$SSH_REMOTE" -- mysql:linked "$MAIN_MYSQL_APP_NAME" "$APP_NAME"; then
@@ -38,6 +38,6 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
         echo "$MYSQL_APP_NAME already linked to the $APP_NAME"
     fi
 
-    echo "Setting DOKKU_SKIP_DEPLOY=true to don't redeploy during unlinking and linking..."
-    ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="false" --no-restart # now good to deploy
+    echo "Setting DOKKU_SKIP_DEPLOY=false, good to deploy now"
+    ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="false" --no-restart
 fi
