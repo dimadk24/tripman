@@ -21,6 +21,7 @@ jobs:
           git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
           ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
           review_app_name: tripman-pr-${{ github.event.pull_request.number }}
+          git_push_flags: --force
 
   destroy-preview-app:
     name: 'Destroy preview app'
