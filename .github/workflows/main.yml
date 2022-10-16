@@ -17,27 +17,13 @@ jobs:
   deploy:
     name: 'Deploy'
     runs-on: ubuntu-22.04
-    permissions:
-      contents: 'read'
-      id-token: 'write'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Deploy
+        uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
+        if: ${{ github.ref_name }} == 'master'
         with:
-          version: 1.2.1
-
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-          cache: 'poetry'
-
-      - name: Install dependencies
-        run: poetry install
-
-      - name: Collect static files
-        run: poetry run python manage.py collectstatic --no-input
-
+          git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
+          ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
