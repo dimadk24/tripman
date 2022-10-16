@@ -8,6 +8,7 @@ MAIN_MYSQL_APP_NAME="$MAIN_APP_NAME-mysql"
 MYSQL_APP_NAME="$APP_NAME-mysql"
 
 if [ "$IS_REVIEW_APP" = "true" ]; then
+    echo "Checking if mysql preview instance exists..."
     if ! ssh "$SSH_REMOTE" -- mysql:exists "$MYSQL_APP_NAME"; then
         echo "Creating $MYSQL_APP_NAME instance..."
         ssh "$SSH_REMOTE" -- mysql:create "$MYSQL_APP_NAME"
@@ -16,8 +17,10 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
         echo "$MYSQL_APP_NAME instance already exists"
     fi
 
+    echo "Setting DOKKU_SKIP_DEPLOY=true to don't redeploy during unlinking and linking..."
     ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="true" # during linking/unlinking dokku redeploys
 
+    echo "Checking if main mysql linked to the preview app..."
     if ssh "$SSH_REMOTE" -- mysql:linked "$MAIN_MYSQL_APP_NAME" "$APP_NAME"; then
         echo "Unlinking $MAIN_MYSQL_APP_NAME instance from the $APP_NAME (main)..."
         ssh "$SSH_REMOTE" -- mysql:unlink "$MYSQL_APP_NAME" "$MAIN_APP_NAME" DOKKU_SKIP_DEPLOY="true"
@@ -25,6 +28,8 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
     else
         echo "$MYSQL_APP_NAME not linked to the $MAIN_APP_NAME (main)"
     fi
+
+    echo "Checking if preview mysql linked to the preview app..."
     if ! ssh "$SSH_REMOTE" -- mysql:linked "$MYSQL_APP_NAME" "$APP_NAME"; then
         echo "Linking $MYSQL_APP_NAME instance to the $APP_NAME..."
         ssh "$SSH_REMOTE" -- mysql:link "$MYSQL_APP_NAME" "$APP_NAME" DOKKU_SKIP_DEPLOY="true"
@@ -33,5 +38,6 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
         echo "$MYSQL_APP_NAME already linked to the $APP_NAME"
     fi
 
+    echo "Setting DOKKU_SKIP_DEPLOY=true to don't redeploy during unlinking and linking..."
     ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="false" # now good to deploy
 fi
