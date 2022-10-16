@@ -1,0 +1,32 @@
+name: 'Pull request'
+on: pull_request
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  create-review-app:
+    runs-on: ubuntu-22.04
+    if: github.event.action == 'opened'
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Deploy review app
+        uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
+        with:
+          command: review-apps:create
+          git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
+          ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
+
+  destroy-review-app:
+    runs-on: ubuntu-22.04
+    if: github.event.action == 'closed'
+    steps:
+      - name: Destroy the review app
+        uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
+        with:
+          command: review-apps:destroy
+          git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
+          ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}

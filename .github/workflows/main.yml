@@ -14,10 +14,10 @@ env:
   DJANGO_ADMIN_PASSWORD: "root"
   STATIC_ROOT: "static"
 jobs:
-  deploy:
-    name: 'Deploy'
+  deploy-prod:
+    name: 'Deploy prod'
     runs-on: ubuntu-22.04
-    if: ${{ github.ref_name }} == 'master'
+    if: github.ref_name == 'master'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
