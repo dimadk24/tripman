@@ -3,19 +3,29 @@
 # passed APP_NAME, IS_REVIEW_APP, SSH_REMOTE
 # https://github.com/dokku/ci-docker-image/blob/a68a9220582cfe7686c7f868bed1441179ecc607/bin/dokku-deploy#L86
 
+MAIN_APP_NAME="tripman"
+MYSQL_APP_NAME="$APP_NAME-mysql"
+
 if [ "$IS_REVIEW_APP" = "true" ]; then
-    if ! ssh "$SSH_REMOTE" -- mysql:exists "$APP_NAME-mysql"; then
-        echo "Creating $APP_NAME-mysql instance..."
-        ssh "$SSH_REMOTE" -- mysql:create "$APP_NAME-mysql"
-        echo "Created $APP_NAME-mysql instance"
+    if ! ssh "$SSH_REMOTE" -- mysql:exists "$MYSQL_APP_NAME"; then
+        echo "Creating $MYSQL_APP_NAME instance..."
+        ssh "$SSH_REMOTE" -- mysql:create "$MYSQL_APP_NAME"
+        echo "Created $MYSQL_APP_NAME instance"
     else
-        echo "$APP_NAME-mysql instance already exists"
+        echo "$MYSQL_APP_NAME instance already exists"
     fi
-    if ! ssh "$SSH_REMOTE" -- mysql:linked "$APP_NAME-mysql" "$APP_NAME"; then
-        echo "Linking $APP_NAME-mysql instance to the $APP_NAME..."
-        ssh "$SSH_REMOTE" -- mysql:link "$APP_NAME-mysql" "$APP_NAME" DOKKU_SKIP_DEPLOY="true"
-        echo "Linked $APP_NAME-mysql to the $APP_NAME"
+    if ssh "$SSH_REMOTE" -- mysql:linked "$MYSQL_APP_NAME" "$MAIN_APP_NAME"; then
+        echo "Unlinking $MYSQL_APP_NAME instance from the $MAIN_APP_NAME (main)..."
+        ssh "$SSH_REMOTE" -- mysql:unlink "$MYSQL_APP_NAME" "$MAIN_APP_NAME" DOKKU_SKIP_DEPLOY="true"
+        echo "Unlinked $MYSQL_APP_NAME from the $MAIN_APP_NAME (main)"
     else
-        echo "$APP_NAME-mysql already linked to the $APP_NAME"
+        echo "$MYSQL_APP_NAME not linked to the $MAIN_APP_NAME (main)"
+    fi
+    if ! ssh "$SSH_REMOTE" -- mysql:linked "$MYSQL_APP_NAME" "$APP_NAME"; then
+        echo "Linking $MYSQL_APP_NAME instance to the $APP_NAME..."
+        ssh "$SSH_REMOTE" -- mysql:link "$MYSQL_APP_NAME" "$APP_NAME" DOKKU_SKIP_DEPLOY="true"
+        echo "Linked $MYSQL_APP_NAME to the $APP_NAME"
+    else
+        echo "$MYSQL_APP_NAME already linked to the $APP_NAME"
     fi
 fi
