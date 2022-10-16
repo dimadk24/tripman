@@ -4,7 +4,6 @@ on:
     types: [ closed ]
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 jobs:
   destroy-preview-app:
     name: 'Destroy preview app'
