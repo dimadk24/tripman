@@ -18,6 +18,8 @@ jobs:
     name: 'Deploy prod'
     runs-on: ubuntu-22.04
     if: github.ref_name == 'master'
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,8 +28,6 @@ jobs:
 
       - name: Deploy prod
         uses: dokku/github-action@66fb7d4443732f94005366c22c562e5ddcbb1d4b
-        concurrency:
-          group: ${{ github.workflow }}-${{ github.ref }}
         with:
           git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
           ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
