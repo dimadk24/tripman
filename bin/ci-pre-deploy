@@ -4,6 +4,7 @@
 # https://github.com/dokku/ci-docker-image/blob/a68a9220582cfe7686c7f868bed1441179ecc607/bin/dokku-deploy#L86
 
 MAIN_APP_NAME="tripman"
+MAIN_MYSQL_APP_NAME="$MAIN_APP_NAME-mysql"
 MYSQL_APP_NAME="$APP_NAME-mysql"
 
 if [ "$IS_REVIEW_APP" = "true" ]; then
@@ -14,10 +15,13 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
     else
         echo "$MYSQL_APP_NAME instance already exists"
     fi
-    if ssh "$SSH_REMOTE" -- mysql:linked "$MYSQL_APP_NAME" "$MAIN_APP_NAME"; then
-        echo "Unlinking $MYSQL_APP_NAME instance from the $MAIN_APP_NAME (main)..."
+
+    ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="true" # during linking/unlinking dokku redeploys
+
+    if ssh "$SSH_REMOTE" -- mysql:linked "$MAIN_MYSQL_APP_NAME" "$APP_NAME"; then
+        echo "Unlinking $MAIN_MYSQL_APP_NAME instance from the $APP_NAME (main)..."
         ssh "$SSH_REMOTE" -- mysql:unlink "$MYSQL_APP_NAME" "$MAIN_APP_NAME" DOKKU_SKIP_DEPLOY="true"
-        echo "Unlinked $MYSQL_APP_NAME from the $MAIN_APP_NAME (main)"
+        echo "Unlinked $MAIN_MYSQL_APP_NAME from the $APP_NAME (main)"
     else
         echo "$MYSQL_APP_NAME not linked to the $MAIN_APP_NAME (main)"
     fi
@@ -28,4 +32,6 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
     else
         echo "$MYSQL_APP_NAME already linked to the $APP_NAME"
     fi
+
+    ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DOKKU_SKIP_DEPLOY="false" # now good to deploy
 fi
