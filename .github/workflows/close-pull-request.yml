@@ -20,6 +20,7 @@ jobs:
   destroy-mysql-instance:
     name: Destroy mysql instance
     runs-on: ubuntu-22.04
+    needs: [ destroy-preview-app ] # otherwise cannot unlink from running app
     steps:
       - name: Destroy mysql instance
         uses: appleboy/ssh-action@v0.1.5
@@ -28,4 +29,4 @@ jobs:
           username: dokku
           key: ${{ secrets.SERVER_SSH_KEY }}
           script_stop: true
-          script: mysql:destroy --force tripman-pr-${{ github.event.pull_request.number }}-mysql
+          script: mysql:destroy tripman-pr-${{ github.event.pull_request.number }}-mysql --force
