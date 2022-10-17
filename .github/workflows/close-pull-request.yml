@@ -16,3 +16,16 @@ jobs:
           git_remote_url: 'ssh://dokku@164.92.191.5:22/tripman'
           ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
           review_app_name: tripman-pr-${{ github.event.pull_request.number }}
+
+  destroy-mysql-instance:
+    name: Destroy mysql instance
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Destroy mysql instance
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: 164.92.191.5
+          username: dokku
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script_stop: true
+          script: mysql:destroy --force tripman-pr-${{ github.event.pull_request.number }}-mysql
