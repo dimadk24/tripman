@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "192.168.0.2",
     "164.92.191.5",
-    ".oceanprod.com"
+    ".run.app"
 ]
 
 # Application definition
